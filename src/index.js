@@ -1,6 +1,5 @@
 'use strict';
 
-
 function fastbootExpressMiddleware(distPath, options) {
   let opts = options;
 
@@ -22,17 +21,19 @@ function fastbootExpressMiddleware(distPath, options) {
     let FastBoot = require('fastboot');
     fastboot = new FastBoot({
       distPath: opts.distPath,
-      resilient: opts.resilient
+      resilient: opts.resilient,
     });
   }
 
   return function(req, res, next) {
     let path = req.url;
-    fastboot.visit(path, { request: req, response: res })
+    fastboot
+      .visit(path, { request: req, response: res })
       .then(success, failure);
 
     function success(result) {
-      result.html()
+      result
+        .html()
         .then(html => {
           let headers = result.headers;
           let statusMessage = result.error ? 'NOT OK ' : 'OK ';
@@ -42,13 +43,14 @@ function fastbootExpressMiddleware(distPath, options) {
           }
 
           if (result.error) {
-            log("RESILIENT MODE CAUGHT:", result.error.stack);
+            log('RESILIENT MODE CAUGHT:', result.error.stack);
             next(result.error);
           }
 
           log(result.statusCode, statusMessage + path);
           res.status(result.statusCode);
-          res.send(html);
+          res._html = html;
+          next(null);
         })
         .catch(error => {
           res.status(500);
@@ -57,7 +59,7 @@ function fastbootExpressMiddleware(distPath, options) {
     }
 
     function failure(error) {
-      if (error.name === "UnrecognizedURLError") {
+      if (error.name === 'UnrecognizedURLError') {
         next();
       } else {
         res.status(500);
@@ -76,10 +78,16 @@ function _log(statusCode, message, startTime) {
 
   if (startTime) {
     let diff = Date.now() - startTime;
-    message = message + chalk.blue(" " + diff + "ms");
+    message = message + chalk.blue(' ' + diff + 'ms');
   }
 
-  console.log(chalk.blue(now.toISOString()) + " " + chalk[color](statusCode) + " " + message);
+  console.log(
+    chalk.blue(now.toISOString()) +
+      ' ' +
+      chalk[color](statusCode) +
+      ' ' +
+      message
+  );
 }
 
 module.exports = fastbootExpressMiddleware;
