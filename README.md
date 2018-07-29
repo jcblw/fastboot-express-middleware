@@ -1,5 +1,7 @@
 # FastBoot Express Middleware
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/ember-fastboot/fastboot-express-middleware.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/ember-fastboot/fastboot-express-middleware.svg?branch=master)](https://travis-ci.org/ember-fastboot/fastboot-express-middleware)
 
 This middleware is a small wrapper around the
@@ -53,7 +55,8 @@ return a `200` status code  with an empty HTML page, set the `resilient` flag to
 true:
 
 ```js
-app.get('/*', fastbootMiddleware('/path/to/dist', {
+app.get('/*', fastbootMiddleware({
+  distPath: '/path/to/dist',
   resilient: true
 }));
 ```
@@ -85,6 +88,22 @@ app.get('/*', middleware);
 // ...later
 fastboot.reload();
 ```
+
+## Response chunking
+
+By default, the middleware writes the complete response at once but response
+chunking (aka HTTP Streaming) is available via a config switch:
+
+```js
+app.get('/*', fastbootMiddleware({
+  distPath: '/path/to/dist',
+  chunkedResponse: true
+}));
+```
+
+Enabling response chunking will result in the response being delivered in
+multiple chunks (one for the head, one for the body and one for each shoebox)
+which helps getting the HTML to clients faster.
 
 [ember-cli-fastboot]: https://github.com/ember-fastboot/ember-cli-fastboot
 
