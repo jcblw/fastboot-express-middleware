@@ -1,6 +1,6 @@
 {
   "name": "fastboot-express-middleware",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "description": "An Express middleware for rendering Ember apps with FastBoot",
   "main": "src/index.js",
   "scripts": {
@@ -8,21 +8,23 @@
   },
   "repository": {
     "type": "git",
-    "url":
-      "git+https://github.com/ember-fastboot/fastboot-express-middleware.git"
+    "url": "git+https://github.com/ember-fastboot/fastboot-express-middleware.git"
   },
   "engines": {
     "node": ">= 4.0.0"
   },
-  "keywords": ["fastboot", "ember", "express", "middleware"],
+  "keywords": [
+    "fastboot",
+    "ember",
+    "express",
+    "middleware"
+  ],
   "author": "Tom Dale <tom@tomdale.net>",
   "license": "MIT",
   "bugs": {
-    "url":
-      "https://github.com/ember-fastboot/fastboot-express-middleware/issues"
+    "url": "https://github.com/ember-fastboot/fastboot-express-middleware/issues"
   },
-  "homepage":
-    "https://github.com/ember-fastboot/fastboot-express-middleware#readme",
+  "homepage": "https://github.com/ember-fastboot/fastboot-express-middleware#readme",
   "devDependencies": {
     "babel-core": "^6.11.4",
     "babel-preset-es2015": "^6.9.0",
